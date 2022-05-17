@@ -63,7 +63,7 @@ object ChannelRelayer {
       context.system.eventStream ! EventStream.Subscribe(context.messageAdapter[LocalChannelDown](WrappedLocalChannelDown))
       context.system.eventStream ! EventStream.Subscribe(context.messageAdapter[AvailableBalanceChanged](WrappedAvailableBalanceChanged))
       context.messageAdapter[IncomingPaymentPacket.ChannelRelayPacket](Relay)
-      Behaviors.withMdc(Logs.mdc(category_opt = Some(Logs.LogCategory.PAYMENT)), mdc) {
+      Behaviors.withMdc(Logs.mdc(category_opt = Some(Logs.LogCategory.PAYMENT), nodeAlias_opt = Some(nodeParams.alias)), mdc) {
         Behaviors.receiveMessage {
           case Relay(channelRelayPacket) =>
             val relayId = UUID.randomUUID()
